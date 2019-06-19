@@ -65,17 +65,20 @@ module.exports = {
             },
         ]
     },
+    resolve:{
+        extensions: [".js", ".vue",".json"]   // 默认值: [".js",".json"] 自动解析确定的扩展。
+    },
     plugins: [
         new HtmlWebpackPlugin({
             title: 'webpack 学习', // 默认值：Webpack App
             filename: 'index.html', // 默认值： 'index.html',打包到dist的名称
-            template: path.resolve(__dirname, 'src/index.html'),//模板名称
+            template: path.resolve(__dirname, 'public/index.html'),//模板名称
             minify: {
                 collapseWhitespace: true,
                 removeComments: true,
                 removeAttributeQuotes: true // 移除属性的引号
             },
-            favicon: path.resolve(__dirname, 'src/favicon.ico'),
+            favicon:path.resolve(__dirname, 'public/favicon.ico'),
         }),
         new CleanWebpackPlugin(),//清理 dist 目录
     ],

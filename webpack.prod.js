@@ -1,7 +1,6 @@
 const path = require("path")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")//在 dist 目录中已经把 css 抽取到单独的一个 css 文件中了。
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');//压缩 CSS
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const merge=require("webpack-merge")
 const common=require("./webpack.common")
@@ -57,13 +56,9 @@ let prodConfig = {
         })
     ],
     optimization: {
+        minimize: true,//webpack4已经清楚UglifyJsPlugin
         minimizer: [
-            new OptimizeCSSAssetsPlugin({}),
-            new UglifyJsPlugin({
-                cache: true,
-                parallel: true,
-                sourceMap: true // set to true if you want JS source maps
-            })
+            new OptimizeCSSAssetsPlugin({})
         ]
     }
 }
