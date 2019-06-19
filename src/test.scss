@@ -1,6 +1,22 @@
-.test{
+.test {
   display: flex;
-  .testh{
-    color: blue;
+
+  .testh {
+    color: red;
   }
+}
+
+$red: #900;
+$size: 20px;
+
+.box {
+  height: 30px*2;
+  font-size: $size;
+  transform: translate3d(0, 0, 0);
+  background: url('./assets/images/logo.jpg')
+}
+.urlText{
+  width: 100px;
+  height: 200px;
+  background: url('./assets/images/109.jpg')
 }

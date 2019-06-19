@@ -2,12 +2,14 @@ const path = require("path")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")//在 dist 目录中已经把 css 抽取到单独的一个 css 文件中了。
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');//压缩 CSS
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const autoprefixer = require('autoprefixer');
+const merge=require("webpack-merge")
+const common=require("./webpack.common")
 
-module.exports = {
+let prodConfig = {
     mode: "production",
-    entry: "./src/index.js",
     output: {
-        filename: "main.js",
+        filename: "index.[hash].js",
         path: path.resolve(__dirname, "./dist")
     },
     module: {
@@ -28,7 +30,7 @@ module.exports = {
                             ident: 'postcss',//必须要有
                             sourceMap: true,
                             plugins: loader => [
-                                require('autoprefixer')({browsers: ['> 0.15% in CN']}) // 添加前缀
+                                autoprefixer({browsers: ['> 0.15% in CN']}) // 添加前缀
                             ]
                         }
                     },
@@ -39,22 +41,31 @@ module.exports = {
                         }
                     }
                 ]
+            },
+            {
+                test: /\.(woff|woff2|eot|ttf|otf)$/,
+                use: [
+                    'file-loader'
+                ]
             }
         ]
     },
     plugins: [
         new MiniCssExtractPlugin({
-            filename: '[name].css', // 设置最终输出的文件名,name和output filename一样
+            filename: '[name].[hash].css', // 设置最终输出的文件名,name和output filename一样
             chunkFilename: '[id].[hash].css'
         })
     ],
     optimization: {
         minimizer: [
+            new OptimizeCSSAssetsPlugin({}),
             new UglifyJsPlugin({
                 cache: true,
                 parallel: true,
                 sourceMap: true // set to true if you want JS source maps
-            }),
-            new OptimizeCSSAssetsPlugin({})]
+            })
+        ]
     }
 }
+
+module.exports=merge(common,prodConfig)
