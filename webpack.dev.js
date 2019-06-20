@@ -2,6 +2,7 @@ const path = require("path")
 const merge = require("webpack-merge")
 const common = require("./webpack.common")
 const webpack=require("webpack")
+const WebpackDevServerOutput = require("webpack-dev-server-output");
 
 let devConfig = {
     mode: "development",
@@ -44,7 +45,11 @@ let devConfig = {
     },
     plugins:[
         new webpack.NamedModulesPlugin(),  // 更容易查看(patch)的依赖,和热更新有关
-        new webpack.HotModuleReplacementPlugin()  // 替换插件，和热更新有关
+        new webpack.HotModuleReplacementPlugin(),  // 替换插件，和热更新有关
+        new WebpackDevServerOutput({
+            path: path.resolve(__dirname, "./dist"),
+            isDel: true
+        })
     ]
 }
 //热更新
